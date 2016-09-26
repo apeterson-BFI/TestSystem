@@ -32,7 +32,7 @@ namespace TestSystem.Evol
             this.xstart = xstart;
             this.xend = xend;
             this.rnm = new Random();
-            this.watch = false;
+            this.watch = true;
 
             orgs = new List<Org>();
             
@@ -69,9 +69,10 @@ namespace TestSystem.Evol
                 {
                     Console.WriteLine(string.Format("Turn: {0}, {1} alive, {2} dead", t, a, d));
                     
-                    if((stext = Console.ReadLine()) != "\n")
+                    stext = Console.ReadLine();
+
+                    if(Int32.TryParse(stext, out sleep))
                     {
-                        sleep = Int32.Parse(stext)
                         watch = false;
                     }
                 }
