@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4D8CE6BD-B684-401F-89E9-852363211047}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TestSystem</RootNamespace>
+    <AssemblyName>TestSystem</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GMS2">
+      <HintPath>C:\Users\aap\Desktop\code\gms2\gms2\GMS2\bin\x86\Debug\GMS2.exe</HintPath>
+    </Reference>
+    <Reference Include="ReportMasterTwo, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ReportMasterTwo\ReportMasterTwo\bin\Debug\ReportMasterTwo.exe</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BigNum\BigDecimal.cs" />
+    <Compile Include="Calculation\BigFloat.cs" />
+    <Compile Include="Calculation\SeriesInexact.cs" />
+    <Compile Include="DistDist\Coordinates.cs" />
+    <Compile Include="DistDist\DistanceDistribution.cs" />
+    <Compile Include="EucAnaly\AnalysisSetup.cs" />
+    <Compile Include="EucAnaly\Card.cs" />
+    <Compile Include="EucAnaly\DecTree.cs" />
+    <Compile Include="EucAnaly\Hand.cs" />
+    <Compile Include="EucAnaly\Trick.cs" />
+    <Compile Include="Eu\Card.cs" />
+    <Compile Include="Eu\EuContext.cs" />
+    <Compile Include="Eu\Hand.cs" />
+    <Compile Include="Eu\PlayField.cs" />
+    <Compile Include="Evol\BinaryEvalTranslatorLib.cs" />
+    <Compile Include="Evol\BinaryLayout.cs" />
+    <Compile Include="Evol\Enviro.cs" />
+    <Compile Include="Evol\ExprNewtonMethod.cs" />
+    <Compile Include="Evol\Org.cs" />
+    <Compile Include="InterEvol\BinOptionStrategy.cs" />
+    <Compile Include="InterEvol\BinTransferStrategy.cs" />
+    <Compile Include="InterEvol\PStrategy.cs" />
+    <Compile Include="InterEvol\Strategy.cs" />
+    <Compile Include="InterEvol\StrategyAbundance.cs" />
+    <Compile Include="InterEvol\TrafficSim.cs" />
+    <Compile Include="InterEvol\TStrategy.cs" />
+    <Compile Include="LabelParse\LabelParser.cs" />
+    <Compile Include="Misc\BookInv.cs" />
+    <Compile Include="Evol\ExprMutate.cs" />
+    <Compile Include="Evol\ExprRangeFit.cs" />
+    <Compile Include="Evol\UnaryEvalTranslatorLib.cs" />
+    <Compile Include="Evol\ExprExhaustive.cs" />
+    <Compile Include="Evol\ExprPFit.cs" />
+    <Compile Include="Evol\ExprGenlP.cs" />
+    <Compile Include="MonthyPurch\GrowerMonthlyRecord.cs" />
+    <Compile Include="MonthyPurch\MonthlyPurch.cs" />
+    <Compile Include="Dmw\AEntity.cs" />
+    <Compile Include="Dmw\DEntity.cs" />
+    <Compile Include="Dmw\FlEntity.cs" />
+    <Compile Include="Misc\DWXT.cs" />
+    <Compile Include="Misc\Euler.cs" />
+    <Compile Include="Evol\DelgSolver.cs" />
+    <Compile Include="Evol\Evolutionary.cs" />
+    <Compile Include="Evol\ExprEvolver.cs" />
+    <Compile Include="Evol\ExprGenr.cs" />
+    <Compile Include="Evol\ExprOptimize.cs" />
+    <Compile Include="Evol\extree.cs" />
+    <Compile Include="Misc\HolidayCalc.cs" />
+    <Compile Include="Misc\Huffman.cs" />
+    <Compile Include="Misc\Isum.cs" />
+    <Compile Include="Misc\LTree.cs" />
+    <Compile Include="MAS\MASUtilities.cs" />
+    <Compile Include="Misc\MiscStatic.cs" />
+    <Compile Include="Misc\nspell.cs" />
+    <Compile Include="Polynomials\Polynomial.cs" />
+    <Compile Include="Polynomials\PolySet.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AA\PrRiskAlg.cs" />
+    <Compile Include="Evol\RegisterContext.cs" />
+    <Compile Include="AA\StateChance.cs" />
+    <Compile Include="AA\StateList.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Notes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MLAI\" />
+    <Folder Include="Nm\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
