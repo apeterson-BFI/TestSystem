@@ -18,13 +18,22 @@ namespace TestSystem.Evol
 
         public Random rnm;
 
+        public int regenRate;
+
         public const int spawnRate = 1;
         public const double speed = 5.0;
         public const int nodeMax = 99;
 
-        public const double minDim = 0.0;
-        public const double maxDim = 100.0;
+        public double minDim = 0.0;
+        public double maxDim = 500.0;
         public const double findDist = 2.0;
+
+        public const int comboRate = 1;
+        public const int basicRate = 1;
+        public const int constRate = 1;
+        public const int xRate = 1;
+
+        public const double jitter = 0.0001;
 
         public Enviro(extree refexp, double xstart, double xend)
         {
@@ -33,6 +42,8 @@ namespace TestSystem.Evol
             this.xend = xend;
             this.rnm = new Random();
             this.watch = true;
+
+            this.regenRate = 1;
 
             orgs = new List<Org>();
             
@@ -48,6 +59,23 @@ namespace TestSystem.Evol
             double y = orgs.Average(o => o.y);
 
             return new Tuple<double, double>(x, y);
+        }
+
+        public Tuple<double, double> findDeadCentroid()
+        {
+            if(orgs.Count(o => !o.alive) == 0)
+            {
+                return new Tuple<double, double>(0.0, 0.0);
+            }
+            else
+            {
+                var od = orgs.Where(o => !o.alive);
+
+                double x = od.Average(o => o.x);
+                double y = od.Average(o => o.y);
+
+                return new Tuple<double, double>(x, y);
+            }
         }
 
         public void run()
@@ -71,9 +99,216 @@ namespace TestSystem.Evol
                     
                     stext = Console.ReadLine();
 
+                    if(stext == "all")
+                    {
+                        foreach(Org o in orgs)
+                        {
+                            o.basis.ScoreSqrt(refexp, xstart, xend, 0.01);
+
+                            Console.WriteLine(string.Format("Org# {0} : {1} ({2})", o.id, o.basis, o.basis.true_score));
+                        }
+
+                        continue;
+                    }
+                    else if (stext == "harvesters")
+                    {
+                        foreach (Org o in orgs)
+                        {
+                            if (o.opMode == OpMode.corpsefind)
+                            {
+                                o.basis.ScoreSqrt(refexp, xstart, xend, 0.01);
+
+                                Console.WriteLine(string.Format("Org# {0} : {1} ({2})", o.id, o.basis, o.basis.true_score));
+                            }
+                        }
+
+                        continue;
+                    }
+                    else if(stext == "dead")
+                    {
+                        foreach (Org o in orgs)
+                        {
+                            if (!o.alive && !o.harvested)
+                            {
+                                o.basis.ScoreSqrt(refexp, xstart, xend, 0.01);
+
+                                Console.WriteLine(string.Format("Org# {0} : {1} ({2})", o.id, o.basis, o.basis.true_score));
+                            }
+                        }
+
+                        continue;
+                    }
+                    else if(stext.StartsWith("spawn"))
+                    {
+                        string rem = stext.Substring(6);
+
+                        int spc = 0; 
+
+                        try
+                        {
+                            spc = Int32.Parse(rem);
+                        }
+                        catch(FormatException)
+                        {
+                            Console.WriteLine("Invalid Spawn");
+                        }
+                        
+                        for(int i = 0; i < spc; i++)
+                        {
+                            spawnRandom();
+                        }
+
+                        continue;
+                    }
+                    else if(stext.StartsWith("regen"))
+                    {
+                        string rem = stext.Substring(6);
+
+                        int rc = -1;
+
+                        try
+                        {
+                            rc = Int32.Parse(rem);
+                        }
+                        catch(FormatException)
+                        {
+                            Console.WriteLine("Invalid Spawn");
+                        }
+
+                        if(rc >= 0)
+                        {
+                            regenRate = rc;
+                        }
+
+                        continue;
+                    }
+                    else if(stext.StartsWith("synthesize"))
+                    {
+                        string rem = stext.Substring(11);
+
+                        double x = rnm.NextDouble() * (maxDim - minDim) + minDim;
+                        double y = rnm.NextDouble() * (maxDim - minDim) + minDim;
+
+                        var syno = Org.synthesize(rem, x, y);
+                        orgs.Add(syno);
+
+                        continue;
+                    }
+                    else if(stext == "wipe")
+                    {
+                        orgs.Clear();
+                        continue;
+                    }
+                    else if(stext.StartsWith("min"))
+                    {
+                        string rem = stext.Substring(4);
+
+                        double m = minDim;
+
+                        try
+                        {
+                            m = double.Parse(rem);
+                        }
+                        catch(FormatException)
+                        {
+                            Console.WriteLine("Invalid min");
+                        }
+
+                        if(m != minDim)
+                        {
+                            minDim = m;
+                        }
+
+                        continue;
+                    }
+                    else if (stext.StartsWith("max"))
+                    {
+                        string rem = stext.Substring(4);
+
+                        double m = maxDim;
+
+                        try
+                        {
+                            m = double.Parse(rem);
+                        }
+                        catch (FormatException)
+                        {
+                            Console.WriteLine("Invalid max");
+                        }
+
+                        if (m != maxDim)
+
+                        {
+                            maxDim = m;
+                        }
+
+                        continue;
+                    }
+                    else if(stext == "alive")
+                    {
+                        foreach (Org o in orgs)
+                        {
+                            if (o.alive)
+                            {
+                                o.basis.ScoreSqrt(refexp, xstart, xend, 0.01);
+
+                                Console.WriteLine(string.Format("Org# {0} : {1} ({2})", o.id, o.basis, o.basis.true_score));
+                            }
+                        }
+
+                        continue;
+                    }
+                    else if(stext.StartsWith("make"))
+                    {
+                        string rem = stext.Substring(5);
+                        var ids = rem.Split(',');
+
+                        if(ids == null || ids.Length != 3)
+                        {
+                            Console.WriteLine("Invalid Make");
+                        }
+                        else
+                        {
+                            int[] nids = new int[3];
+
+                            try
+                            {
+                                nids[0] = Int32.Parse(ids[0]);
+                                nids[1] = Int32.Parse(ids[1]);
+                                nids[2] = Int32.Parse(ids[2]);
+
+                                Org maker = orgs.Find(x => x.id == nids[0]);
+                                Org left = orgs.Find(x => x.id == nids[1]);
+                                Org right = orgs.Find(x => x.id == nids[2]);
+
+                                if(maker == null || maker.orgType != OrgType.combiner || left == null || right == null)
+                                {
+                                    Console.WriteLine("Invalid Make");
+                                }
+                                else
+                                {
+                                    left.harvested = true;
+                                    right.harvested = true;
+                                    maker.alive = true;
+                                    maker.basis.left = left.basis;
+                                    maker.basis.right = right.basis;
+                                    maker.opMode = OpMode.flee;
+                                    maker.secsToModeChange = 3;
+                                }
+                            }
+                            catch(FormatException)
+                            {
+                                Console.WriteLine("Invalid Make");
+                            }
+                        }
+
+                        continue;
+                    }
+
                     if(Int32.TryParse(stext, out sleep))
                     {
                         watch = false;
+
                     }
                 }
 
@@ -88,15 +323,23 @@ namespace TestSystem.Evol
                 }
 
                 doSec();
-                spawnRandom();
 
+                for (int i = 0; i < regenRate; i++)
+                {
+                    spawnRandom();
+                }
+                    
                 t++;
             }
+
+            Console.WriteLine("Max ID Reached");
+            Console.ReadLine();
         }
 
         public void doSec()
         {
             var c = findCentroid();
+            var dc = findDeadCentroid();
 
             for(int i = 0; i < orgs.Count; i++)
             {
@@ -105,7 +348,7 @@ namespace TestSystem.Evol
                     continue;
                 }
 
-                move(orgs[i], c);
+                move(orgs[i], c, dc);
                 act(orgs[i]);
             }
 
@@ -140,10 +383,21 @@ namespace TestSystem.Evol
             }
         }
 
-        public void move(Org o, Tuple<double, double> centroid)
+        public void move(Org o, Tuple<double, double> centroid, Tuple<double, double> deadCentroid)
         {
-            double dx = o.x - centroid.Item1;
-            double dy = o.y - centroid.Item2;
+            double dx;
+            double dy;
+
+            if(o.opMode == OpMode.corpsefind)
+            {
+                dx = o.x - deadCentroid.Item1;
+                dy = o.y - deadCentroid.Item2;
+            }
+            else
+            {
+                dx = o.x - centroid.Item1;
+                dy = o.y - centroid.Item2;
+            }
 
             double sq = Math.Sqrt(dx * dx + dy * dy);
 
@@ -197,7 +451,12 @@ namespace TestSystem.Evol
                         {
                             target.basis.ScoreSqrt(refexp, xstart, xend, 0.01);
                         }
-                            
+
+                        //if (o.basis.true_score <= 7.0)
+                        //{
+                        //    watch = true;
+                        //}
+
                         if(o.basis.true_score < target.basis.true_score)
                         {
                             // kill
@@ -206,6 +465,7 @@ namespace TestSystem.Evol
 
                             if (watch)
                             {
+
                                 Console.WriteLine(string.Format("Org# {0} : {1} ({2}) killed Org# {3} : {4} ({5}).", o.id, o.basis, o.basis.true_score, target.id, target.basis, target.basis.true_score));
                                 Console.ReadLine();
                             }
@@ -291,6 +551,7 @@ namespace TestSystem.Evol
                             Org n = new Org(o);
                             n.x = rnm.NextDouble() * (maxDim - minDim) + minDim;
                             n.y = rnm.NextDouble() * (maxDim - minDim) + minDim;
+                            n.mutate(rnm, jitter);
 
                             orgs.Add(n);
 
@@ -341,9 +602,9 @@ namespace TestSystem.Evol
 
             expr_type[] binaryTypes = new expr_type[] { expr_type.plus, expr_type.minus, expr_type.times, expr_type.divides, expr_type.pow, expr_type.root, expr_type.compose, expr_type.mean, expr_type.gmean };
 
-            if(rnm.Next(2) == 0)
+            if(rnm.Next(comboRate + basicRate) < basicRate)
             {    
-                if(rnm.Next(2) == 0)
+                if(rnm.Next(constRate + xRate) < constRate)
                 {
                     et = expr_type.constant;
                 }

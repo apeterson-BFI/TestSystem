@@ -17,7 +17,7 @@ namespace TestSystem.Evol
         public static UnaryEvalTranslatorLib uEvalLib = new UnaryEvalTranslatorLib();
         public static BinaryEvalTranslatorLib bEvalLib = new BinaryEvalTranslatorLib();
         private static Random rnm = new Random();
-        public const double sizepenalty = 0.1; 
+        public const double sizepenalty = 0.01; 
 
         public extree()
         {
@@ -230,7 +230,7 @@ namespace TestSystem.Evol
             {
                 if (left == null || right == null)
                 {
-                    throw new ArgumentException("Binary Operator has one or more null parameters");
+                    return double.NaN;
                 }
 
                 if(type == expr_type.compose)
@@ -296,6 +296,24 @@ namespace TestSystem.Evol
             else
             {
                 return (Math.Sign(t1.true_score - t2.true_score));
+            }
+        }
+
+        public void mutate(Random rnm, double jitter)
+        {
+            if(!double.IsNaN(val) && !double.IsInfinity(val))
+            {
+                val += rnm.NextDouble() * jitter * 2.0 - jitter;    // val += [-jitter, +jitter]
+            }
+
+            if(left != null)
+            {
+                left.mutate(rnm, jitter);
+            }
+
+            if(right != null)
+            {
+                right.mutate(rnm, jitter);
             }
         }
 
@@ -637,6 +655,361 @@ namespace TestSystem.Evol
             else
             {
                 throw new ArgumentException("bad arg");
+            }
+        }
+
+        public static extree synthesize(Stack<string> tokens)
+        {
+            // initially tree is empty and tokens are full.
+            // eventually tree will be full and tokens empty
+
+            if(tokens.Count == 0)
+            {
+                return null;
+            }
+
+            string token = tokens.Pop();
+
+            extree e;
+            extree ce;
+
+            switch(token)
+            {
+                case "plus":
+                    e = new extree(expr_type.plus, 0.0);
+                    e.left = synthesize(tokens);
+                    e.right = synthesize(tokens);                    
+                    return e;
+                case "minus":
+                    e = new extree(expr_type.minus, 0.0);
+                    e.left = synthesize(tokens);
+                    e.right = synthesize(tokens);                    
+                    return e;
+                case "times":
+                    e = new extree(expr_type.times, 0.0);
+                    e.left = synthesize(tokens);
+                    e.right = synthesize(tokens);                    
+                    return e;
+                case "divides":
+                    e = new extree(expr_type.divides, 0.0);
+                    e.left = synthesize(tokens);
+                    e.right = synthesize(tokens);                    
+                    return e;
+                case "pow":
+                    e = new extree(expr_type.pow, 0.0);
+                    e.left = synthesize(tokens);
+                    e.right = synthesize(tokens);                    
+                    return e;
+                case "mean":
+                    e = new extree(expr_type.mean, 0.0);
+                    e.left = synthesize(tokens);
+                    e.right = synthesize(tokens);                    
+                    return e;
+                case "gmean":
+                    e = new extree(expr_type.gmean, 0.0);
+                    e.left = synthesize(tokens);
+                    e.right = synthesize(tokens);                    
+                    return e;
+                case "compose":
+                    e = new extree(expr_type.compose, 0.0);
+                    e.left = synthesize(tokens);
+                    e.right = synthesize(tokens);                    
+                    return e;
+                case "root":
+                    e = new extree(expr_type.root, 0.0);
+                    e.left = synthesize(tokens);
+                    e.right = synthesize(tokens);                    
+                    return e;
+
+                case "ln":
+                    e = new extree(expr_type.ln, 0.0);
+
+                    ce = synthesize(tokens);
+
+                    if(ce.type != expr_type.constant)
+                    {
+                        Console.WriteLine("Synthesize error");
+                        return e;
+                    }
+                    else
+                    {
+                        e.val = ce.val;
+                        return e;
+                    }
+                case "exp":
+                    e = new extree(expr_type.exp, 0.0);
+
+                    ce = synthesize(tokens);
+
+                    if(ce.type != expr_type.constant)
+                    {
+                        Console.WriteLine("Synthesize error");
+                        return e;
+                    }
+                    else
+                    {
+                        e.val = ce.val;
+                        return e;
+                    }
+                case "sin":
+                    e = new extree(expr_type.sin, 0.0);
+
+                    ce = synthesize(tokens);
+
+                    if(ce.type != expr_type.constant)
+                    {
+                        Console.WriteLine("Synthesize error");
+                        return e;
+                    }
+                    else
+                    {
+                        e.val = ce.val;
+                        return e;
+                    }
+                case "cos":
+                    e = new extree(expr_type.cos, 0.0);
+
+                    ce = synthesize(tokens);
+
+                    if(ce.type != expr_type.constant)
+                    {
+                        Console.WriteLine("Synthesize error");
+                        return e;
+                    }
+                    else
+                    {
+                        e.val = ce.val;
+                        return e;
+                    }
+                case "tan":
+                    e = new extree(expr_type.tan, 0.0);
+
+                    ce = synthesize(tokens);
+
+                    if(ce.type != expr_type.constant)
+                    {
+                        Console.WriteLine("Synthesize error");
+                        return e;
+                    }
+                    else
+                    {
+                        e.val = ce.val;
+                        return e;
+                    }
+                case "constant":
+                    e = new extree(expr_type.constant, 0.0);
+
+                    ce = synthesize(tokens);
+
+                    if(ce.type != expr_type.constant)
+                    {
+                        Console.WriteLine("Synthesize error");
+                        return e;
+                    }
+                    else
+                    {
+                        e.val = ce.val;
+                        return e;
+                    }
+                case "neg":
+                    e = new extree(expr_type.neg, 0.0);
+
+                    ce = synthesize(tokens);
+
+                    if(ce.type != expr_type.constant)
+                    {
+                        Console.WriteLine("Synthesize error");
+                        return e;
+                    }
+                    else
+                    {
+                        e.val = ce.val;
+                        return e;
+                    }
+                case "recip":
+                    e = new extree(expr_type.recip, 0.0);
+
+                    ce = synthesize(tokens);
+
+                    if(ce.type != expr_type.constant)
+                    {
+                        Console.WriteLine("Synthesize error");
+                        return e;
+                    }
+                    else
+                    {
+                        e.val = ce.val;
+                        return e;
+                    }
+                case "asin":
+                    e = new extree(expr_type.asin, 0.0);
+
+                    ce = synthesize(tokens);
+
+                    if(ce.type != expr_type.constant)
+                    {
+                        Console.WriteLine("Synthesize error");
+                        return e;
+                    }
+                    else
+                    {
+                        e.val = ce.val;
+                        return e;
+                    }
+                case "acos":
+                    e = new extree(expr_type.acos, 0.0);
+
+                    ce = synthesize(tokens);
+
+                    if(ce.type != expr_type.constant)
+                    {
+                        Console.WriteLine("Synthesize error");
+                        return e;
+                    }
+                    else
+                    {
+                        e.val = ce.val;
+                        return e;
+                    }
+                case "atan":
+                    e = new extree(expr_type.atan, 0.0);
+
+                    ce = synthesize(tokens);
+
+                    if(ce.type != expr_type.constant)
+                    {
+                        Console.WriteLine("Synthesize error");
+                        return e;
+                    }
+                    else
+                    {
+                        e.val = ce.val;
+                        return e;
+                    }
+                case "sqrt":
+                    e = new extree(expr_type.sqrt, 0.0);
+
+                    ce = synthesize(tokens);
+
+                    if(ce.type != expr_type.constant)
+                    {
+                        Console.WriteLine("Synthesize error");
+                        return e;
+                    }
+                    else
+                    {
+                        e.val = ce.val;
+                        return e;
+                    }
+                case "abs":
+                    e = new extree(expr_type.abs, 0.0);
+
+                    ce = synthesize(tokens);
+
+                    if(ce.type != expr_type.constant)
+                    {
+                        Console.WriteLine("Synthesize error");
+                        return e;
+                    }
+                    else
+                    {
+                        e.val = ce.val;
+                        return e;
+                    }
+                case "cosh":
+                    e = new extree(expr_type.cosh, 0.0);
+
+                    ce = synthesize(tokens);
+
+                    if(ce.type != expr_type.constant)
+                    {
+                        Console.WriteLine("Synthesize error");
+                        return e;
+                    }
+                    else
+                    {
+                        e.val = ce.val;
+                        return e;
+                    }
+                case "sinh":
+                    e = new extree(expr_type.sinh, 0.0);
+
+                    ce = synthesize(tokens);
+
+                    if(ce.type != expr_type.constant)
+                    {
+                        Console.WriteLine("Synthesize error");
+                        return e;
+                    }
+                    else
+                    {
+                        e.val = ce.val;
+                        return e;
+                    }
+                case "tanh":
+                    e = new extree(expr_type.tanh, 0.0);
+
+                    ce = synthesize(tokens);
+
+                    if(ce.type != expr_type.constant)
+                    {
+                        Console.WriteLine("Synthesize error");
+                        return e;
+                    }
+                    else
+                    {
+                        e.val = ce.val;
+                        return e;
+                    }
+                case "powinvsqrt2":
+                    e = new extree(expr_type.powinvsqrt2, 0.0);
+
+                    ce = synthesize(tokens);
+
+                    if(ce.type != expr_type.constant)
+                    {
+                        Console.WriteLine("Synthesize error");
+                        return e;
+                    }
+                    else
+                    {
+                        e.val = ce.val;
+                        return e;
+                    }
+                case "powsqrt2":
+                    e = new extree(expr_type.powsqrt2, 0.0);
+
+                    ce = synthesize(tokens);
+
+                    if(ce.type != expr_type.constant)
+                    {
+                        Console.WriteLine("Synthesize error");
+                        return e;
+                    }
+                    else
+                    {
+                        e.val = ce.val;
+                        return e;
+                    }
+
+                case "x":
+                    e = new extree(expr_type.constant, double.NaN);
+                    return e;
+
+                default:
+                    double v;
+
+                    if(double.TryParse(token, out v))
+                    {
+                        e = new extree(expr_type.constant, v);
+                        return e;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Synthesize error");
+                        e = new extree(expr_type.constant, 0.0);
+                        return e;
+                    }
             }
         }
     }

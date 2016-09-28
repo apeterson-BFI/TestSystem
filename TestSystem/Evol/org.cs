@@ -68,6 +68,31 @@ namespace TestSystem.Evol
             this.opMode = OpMode.flee;
             this.secsToModeChange = 3;
         }
+
+        public void mutate(Random rnm, double jitter)
+        {
+            basis.mutate(rnm, jitter);
+        }
+
+        public static Org synthesize(string text, double x, double y)
+        {
+            var tokens = text.Split(' ');
+
+            var strStack = new Stack<string>();
+            var treeStack = new Stack<extree>();
+
+            // We want the first item to be pushed onto the stack last
+            // So that we pop it off first
+            for(int i = tokens.Length - 1; i >= 0; i--)
+            {
+                strStack.Push(tokens[i]);
+            }
+
+            var ex = extree.synthesize(strStack);
+
+            Org o = new Org(ex, OrgType.basic, x, y);
+            return o;
+        }
     }
 
     public enum OrgType

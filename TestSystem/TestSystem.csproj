@@ -104,7 +104,14 @@
     <Compile Include="Evol\BinaryLayout.cs" />
     <Compile Include="Evol\Enviro.cs" />
     <Compile Include="Evol\ExprNewtonMethod.cs" />
+    <Compile Include="Evol\EnviroForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Evol\EnviroForm.Designer.cs">
+      <DependentUpon>EnviroForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Evol\Org.cs" />
+    <Compile Include="Evol\StackItem.cs" />
     <Compile Include="InterEvol\BinOptionStrategy.cs" />
     <Compile Include="InterEvol\BinTransferStrategy.cs" />
     <Compile Include="InterEvol\PStrategy.cs" />
@@ -159,6 +166,11 @@
   <ItemGroup>
     <Folder Include="MLAI\" />
     <Folder Include="Nm\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Evol\EnviroForm.resx">
+      <DependentUpon>EnviroForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
