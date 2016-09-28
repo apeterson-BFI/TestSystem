@@ -74,3 +74,11 @@ C:\Users\aap\Dropbox (Personal)\Code\TestSystem\TestSystem\bin\Debug\ReportMaste
 C:\Users\aap\Dropbox (Personal)\Code\TestSystem\TestSystem\obj\Debug\TestSystem.csprojResolveAssemblyReference.cache
 C:\Users\aap\Dropbox (Personal)\Code\TestSystem\TestSystem\obj\Debug\TestSystem.Evol.EnviroForm.resources
 C:\Users\aap\Dropbox (Personal)\Code\TestSystem\TestSystem\obj\Debug\TestSystem.csproj.GenerateResource.Cache
+C:\Users\aap\Documents\GitHub\TestSystem\TestSystem\bin\Debug\TestSystem.exe.config
+C:\Users\aap\Documents\GitHub\TestSystem\TestSystem\obj\Debug\TestSystem.exe
+C:\Users\aap\Documents\GitHub\TestSystem\TestSystem\obj\Debug\TestSystem.pdb
+C:\Users\aap\Documents\GitHub\TestSystem\TestSystem\bin\Debug\TestSystem.exe
+C:\Users\aap\Documents\GitHub\TestSystem\TestSystem\bin\Debug\TestSystem.pdb
+C:\Users\aap\Documents\GitHub\TestSystem\TestSystem\obj\Debug\TestSystem.csprojResolveAssemblyReference.cache
+C:\Users\aap\Documents\GitHub\TestSystem\TestSystem\obj\Debug\TestSystem.Evol.EnviroForm.resources
+C:\Users\aap\Documents\GitHub\TestSystem\TestSystem\obj\Debug\TestSystem.csproj.GenerateResource.Cache
