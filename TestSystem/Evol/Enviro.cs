@@ -319,6 +319,7 @@ namespace TestSystem.Evol
                     if(sleep == 0)
                     {
                         watch = true;
+                        continue;
                     }
                 }
 

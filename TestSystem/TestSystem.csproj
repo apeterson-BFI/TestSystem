@@ -127,8 +127,6 @@
     <Compile Include="Evol\ExprExhaustive.cs" />
     <Compile Include="Evol\ExprPFit.cs" />
     <Compile Include="Evol\ExprGenlP.cs" />
-    <Compile Include="MonthyPurch\GrowerMonthlyRecord.cs" />
-    <Compile Include="MonthyPurch\MonthlyPurch.cs" />
     <Compile Include="Dmw\AEntity.cs" />
     <Compile Include="Dmw\DEntity.cs" />
     <Compile Include="Dmw\FlEntity.cs" />
