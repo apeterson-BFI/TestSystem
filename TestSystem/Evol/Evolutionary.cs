@@ -8,6 +8,42 @@ namespace TestSystem.Evol
 {
     public class Evolutionary
     {
+        public static void runRandomList(bool wait)
+        {
+            extree reference = new extree(expr_type.exp, double.NaN);
+            Random rnm = new Random();
+
+            double bestScore = double.PositiveInfinity;
+            double score;
+
+            extree r;
+
+            int n = 0;
+
+            while(bestScore > 0)
+            {
+                r = extree.makeRandom(rnm);
+
+                r.ScoreSqrt(reference, 0.0, 1.0, 0.01);
+
+                score = r.true_score;
+
+                if(score < bestScore)
+                {
+                    bestScore = score;
+
+                    Console.WriteLine(string.Format("{0} ({1}) on attempt {2}", r.ToString(), score, n));
+
+                    if (wait)
+                    {
+                        Console.ReadLine();
+                    }
+                }
+
+                n++;
+            }
+        }
+
         public static void runEnviro()
         {
             extree reference = new extree(expr_type.exp, double.NaN);
@@ -82,22 +118,16 @@ namespace TestSystem.Evol
 
         public static void RunTestbedx21()
         {
-            // x ^ 2 + 1
-            extree reference = new extree(expr_type.plus, 0.0);                 // +
-            reference.left = new extree(expr_type.pow, 0.0);                    // ^
-            reference.left.left = new extree(expr_type.constant, double.NaN);   // x
-            reference.left.right = new extree(expr_type.constant, 2.0);         // 2.0
-            reference.right = new extree(expr_type.constant, 1.0);              // 1.0
+            extree reference = new extree(expr_type.exp, double.NaN);
 
-            ExprNewtonMethod n = new ExprNewtonMethod(reference, 0.0, 1.0, 0.02, 0.01, 100000, 8, 0.001, 0.004, 100);
+            ExprGenr gev = new ExprGenr(reference, 0.0, 1.0, 0.01, 0.001, 300000, 3);
+            extree ex = gev.Process_Until_Terminal();
 
-            // ExprEvolver ev = new ExprEvolver(reference, 1.1, Math.E, (Math.E - 1.1) / 100.0, 10.0, 50000);
-            // ExprGenr gev = new ExprGenr(reference, 0.0, 2.0, 0.02, 0.01, 100000, 10);
+            Console.Out.WriteLine("Press any key to continue:");
+            string sk = Console.In.ReadLine();
 
-            //ExprOptimize oev = new ExprOptimize(reference, 0, 2, 0.02, 5.0, 10000, 1, 4);
-            // extree ex = gev.ProcessNSteps(100000, true);
 
-            n.Process_Until_Terminal();
+
         }
 
         public static void Genr()

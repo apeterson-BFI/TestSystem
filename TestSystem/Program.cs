@@ -24,8 +24,7 @@ namespace TestSystem
     {
         static void Main(string[] args)
         {
-            Evolutionary.runEnviro();
-
+            BBJSON.BBGM.test();
         }        
     }
 }

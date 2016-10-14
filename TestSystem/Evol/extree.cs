@@ -17,7 +17,67 @@ namespace TestSystem.Evol
         public static UnaryEvalTranslatorLib uEvalLib = new UnaryEvalTranslatorLib();
         public static BinaryEvalTranslatorLib bEvalLib = new BinaryEvalTranslatorLib();
         private static Random rnm = new Random();
-        public const double sizepenalty = 0.01; 
+        public const double sizepenalty = 0.01;
+
+        private static expr_type[] etypes = new expr_type[] {
+                                        expr_type.plus,
+                                        expr_type.minus,
+                                        expr_type.times,
+                                        expr_type.divides,
+                                        expr_type.pow,
+                                        expr_type.ln,
+                                        expr_type.exp,
+                                        expr_type.sin,
+                                        expr_type.cos,
+                                        expr_type.tan,
+                                        expr_type.constant,
+                                        expr_type.neg,
+                                        expr_type.recip,
+                                        expr_type.asin,
+                                        expr_type.acos,
+                                        expr_type.atan,
+                                        expr_type.compose,
+                                        expr_type.sqrt,
+                                        expr_type.abs,
+                                        expr_type.cosh,
+                                        expr_type.sinh,
+                                        expr_type.tanh,
+                                        expr_type.root,
+                                        expr_type.powinvsqrt2,
+                                        expr_type.powsqrt2,
+                                        expr_type.mean,
+                                        expr_type.gmean 
+                                                };
+
+        private static bool[] binaries = new bool[] {
+                                        true,
+                                        true,
+                                        true,
+                                        true,
+                                        true,
+                                        false,
+                                        false,
+                                        false,
+                                        false,
+                                        false,
+                                        false,
+                                        false,
+                                        false,
+                                        false,
+                                        false,
+                                        false,
+                                        true,
+                                        false,
+                                        false,
+                                        false,
+                                        false,
+                                        false,
+                                        true,
+                                        false,
+                                        false,
+                                        true,
+                                        true
+                                                };
 
         public extree()
         {
@@ -212,11 +272,6 @@ namespace TestSystem.Evol
         {
             if (unary)
             {
-                if(!uEvalLib.Exists(type))
-                {
-                    throw new ArgumentException("Invalid Operation (Unary)");
-                }
-
                 if (double.IsNaN(val))
                 {
                     return (uEvalLib.Eval(type, x));
@@ -236,10 +291,6 @@ namespace TestSystem.Evol
                 if(type == expr_type.compose)
                 {
                     return(left.eval(right.eval(x)));
-                }
-                else if (!bEvalLib.Exists(type))
-                {
-                    throw new ArgumentException("Invalid Operation");
                 }
                 else
                 {
@@ -657,6 +708,41 @@ namespace TestSystem.Evol
                 throw new ArgumentException("bad arg");
             }
         }
+
+        public static extree makeRandom(Random rnm)
+        {
+            int exTypeIndex = rnm.Next(27);
+
+            expr_type etype = etypes[exTypeIndex];
+            bool binary = binaries[exTypeIndex];
+
+            // -5 to 5
+            double v = rnm.NextDouble() * 10.0 - 5.0;
+
+            if(rnm.Next(3) == 0)
+            {
+                v = double.NaN;
+            }
+
+            extree e = new extree(etype, v);
+
+            if(binary)
+            {
+                e.left = makeRandom(rnm);
+                e.right = makeRandom(rnm);
+            }
+
+            return e;
+        }
+
+        public extree next()
+        {
+            throw new NotImplementedException();
+
+            //expr_type etype = etypes[exTypeIndex];
+            //bool binary = binaries[exTypeIndex];
+        }
+
 
         public static extree synthesize(Stack<string> tokens)
         {

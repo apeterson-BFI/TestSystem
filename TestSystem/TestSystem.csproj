@@ -62,6 +62,11 @@
     <Reference Include="GMS2">
       <HintPath>C:\Users\aap\Desktop\code\gms2\gms2\GMS2\bin\x86\Debug\GMS2.exe</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ReportMasterTwo, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\ReportMasterTwo\ReportMasterTwo\bin\Debug\ReportMasterTwo.exe</HintPath>
@@ -86,6 +91,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BBJSON\AllDefensiveData.cs" />
+    <Compile Include="BBJSON\AllLeagueData.cs" />
+    <Compile Include="BBJSON\AwardData.cs" />
+    <Compile Include="BBJSON\AwardDetailData.cs" />
+    <Compile Include="BBJSON\BestRecordData.cs" />
+    <Compile Include="BBJSON\BornData.cs" />
+    <Compile Include="BBJSON\ContractData.cs" />
+    <Compile Include="BBJSON\DraftData.cs" />
+    <Compile Include="BBJSON\EyebrowsData.cs" />
+    <Compile Include="BBJSON\EyesData.cs" />
+    <Compile Include="BBJSON\FaceData.cs" />
+    <Compile Include="BBJSON\HairData.cs" />
+    <Compile Include="BBJSON\HeadData.cs" />
+    <Compile Include="BBJSON\InjuryData.cs" />
+    <Compile Include="BBJSON\LeagueFile.cs" />
+    <Compile Include="BBJSON\MetaData.cs" />
+    <Compile Include="BBJSON\MouthData.cs" />
+    <Compile Include="BBJSON\NoseData.cs" />
+    <Compile Include="BBJSON\PlayerData.cs" />
+    <Compile Include="BBJSON\PlayerDSeasonData.cs" />
+    <Compile Include="BBJSON\Rating.cs" />
+    <Compile Include="BBJSON\ReleasedData.cs" />
+    <Compile Include="BBJSON\PlayerSeasonData.cs" />
+    <Compile Include="BBJSON\SalaryData.cs" />
+    <Compile Include="BBJSON\StatsData.cs" />
     <Compile Include="BigNum\BigDecimal.cs" />
     <Compile Include="Calculation\BigFloat.cs" />
     <Compile Include="Calculation\SeriesInexact.cs" />
@@ -100,6 +130,7 @@
     <Compile Include="Eu\EuContext.cs" />
     <Compile Include="Eu\Hand.cs" />
     <Compile Include="Eu\PlayField.cs" />
+    <Compile Include="BBJSON\BBGM.cs" />
     <Compile Include="Evol\BinaryEvalTranslatorLib.cs" />
     <Compile Include="Evol\BinaryLayout.cs" />
     <Compile Include="Evol\Enviro.cs" />
@@ -110,6 +141,7 @@
     <Compile Include="Evol\EnviroForm.Designer.cs">
       <DependentUpon>EnviroForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Evol\LocationSet.cs" />
     <Compile Include="Evol\Org.cs" />
     <Compile Include="Evol\StackItem.cs" />
     <Compile Include="InterEvol\BinOptionStrategy.cs" />
@@ -160,6 +192,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="ClassDiagram1.cd" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MLAI\" />

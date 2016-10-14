@@ -342,6 +342,8 @@ namespace TestSystem.Evol
             var c = findCentroid();
             var dc = findDeadCentroid();
 
+
+
             for(int i = 0; i < orgs.Count; i++)
             {
                 if(!orgs[i].alive)
@@ -573,19 +575,74 @@ namespace TestSystem.Evol
             }
         }
 
+        public Org findAlive(Org o, LocationSet ls)
+        {
+            foreach (Org org in ls.orgList)
+            {
+                if (org.alive && org.id != o.id && (org.x - o.x) * (org.x - o.x) + (org.y - o.y) * (org.y - o.y) <= findDist * findDist)
+                {
+                    return org;
+                }
+            }
+
+            if(ls.parentLocationSet == null)
+            {
+                return null;
+            }
+            else
+            {
+                return findAlive(o, ls.parentLocationSet);
+            }
+        }
+
         public Org findAlive(Org o)
         {
-            return
-                orgs.Where(org => Math.Sqrt((org.x - o.x) * (org.x - o.x) + (org.y - o.y) * (org.y - o.y)) <= findDist && org.id != o.id && org.alive)
-                    .FirstOrDefault();
+            foreach(Org org in orgs)
+            {
+                if(org.alive && org.id != o.id && (org.x - o.x) * (org.x - o.x) + (org.y - o.y) * (org.y - o.y) <= findDist * findDist)
+                {
+                    return org;
+                }
+            }
+
+            return null;
+        }
+
+        public Org findDead(Org o, LocationSet ls)
+        {
+            foreach (Org org in ls.orgList)
+            {
+                if (!org.alive && org.id != o.id && !org.harvested
+                                    && (org.orgType == OrgType.basic || (org.basis.left != null && org.basis.right != null)
+                                    && (org.x - o.x) * (org.x - o.x) + (org.y - o.y) * (org.y - o.y) <= findDist * findDist))
+                {
+                    return org;
+                }
+            }
+
+            if(ls.parentLocationSet == null)
+            {
+                return null;
+            }
+            else
+            {
+                return findDead(o, ls.parentLocationSet);
+            }
         }
 
         public Org findDead(Org o)
         {
-            return
-                orgs.Where(org => Math.Sqrt((org.x - o.x) * (org.x - o.x) + (org.y - o.y) * (org.y - o.y)) <= findDist && org.id != o.id && !org.alive && !org.harvested 
-                                    && (org.orgType == OrgType.basic || (org.basis.left != null && org.basis.right != null) ))
-                    .FirstOrDefault();
+            foreach(Org org in orgs)
+            {
+                if (!org.alive && org.id != o.id && !org.harvested
+                                    && (org.orgType == OrgType.basic || (org.basis.left != null && org.basis.right != null) 
+                                    && (org.x - o.x) * (org.x - o.x) + (org.y - o.y) * (org.y - o.y) <= findDist * findDist))
+                {
+                    return org;
+                }
+            }
+
+            return null;
         }
 
         public void spawnRandom()
